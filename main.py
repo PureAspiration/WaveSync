@@ -7,11 +7,12 @@ import numpy as np
 from scipy.io import wavfile
 from scipy.signal import correlate, butter, filtfilt
 
+
 # ── Configuration ─────────────────────────────────────────────────────────────
 
-AUDIO_FILE = "Palmerston North Airport.m4a"
-# AUDIO_START_TIME = get_creation_date(AUDIO_FILE)
-AUDIO_START_TIME = "2026:04:30 23:32:40Z"
+AUDIO_FILE = "audio.m4a"
+AUDIO_START_TIME = None
+# AUDIO_START_TIME = "2026:04:30 23:32:40Z"
 
 VIDEO_FOLDER = "videos"
 
@@ -301,7 +302,9 @@ def copy_metadata(input_path, output_path):
 
 def main():
     assert os.path.exists(VIDEO_FOLDER), f"Folder '{VIDEO_FOLDER}' does not exist"
-    audio_start_datetime = datetime.strptime(AUDIO_START_TIME, "%Y:%m:%d %H:%M:%SZ")
+
+    audio_start_time = AUDIO_START_TIME or get_creation_date(AUDIO_FILE)
+    audio_start_datetime = datetime.strptime(audio_start_time, "%Y:%m:%d %H:%M:%SZ")
 
     VIDEO_EXTENSIONS = {".mp4", ".mov", ".avi"}
     for filename in os.listdir(VIDEO_FOLDER):
